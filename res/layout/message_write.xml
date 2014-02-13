@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".JSONwriter" >
+
+    <EditText
+        android:id="@+id/txt_Message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/view_message"
+        android:layout_marginTop="14dp"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:maxLength="100"
+        android:maxLines="4" />
+
+    <EditText
+        android:id="@+id/txt_Nick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/view_message"
+        android:layout_toRightOf="@+id/view_nick"
+        android:ems="10" />
+
+    <Button
+        android:id="@+id/btn_getGPSLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_submit"
+        android:layout_centerHorizontal="true"
+        android:text="Get GPS Location" />
+
+    <TextView
+        android:id="@+id/view_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/view_nick"
+        android:layout_marginTop="14dp"
+        android:text="Message"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btn_getGPSLocation"
+        android:layout_alignRight="@+id/btn_getGPSLocation"
+        android:layout_below="@+id/txt_Message"
+        android:text="Submit Message" />
+
+    <TextView
+        android:id="@+id/view_nick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="14dp"
+        android:text="Nick"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</RelativeLayout>
