@@ -38,75 +38,94 @@ import android.widget.Toast;
  * but still display the results within the UI.
  */
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity
+{
 
-	Button showmap, getlist, write;
-	private MessageAdapter messageAdapter;
-	ListView lv;
-	List<JSONSchema> list;
-	String WHICH_CLASS_CALL = null;
-	boolean LISTVIEW_SET = false;
-	String searchURL = "http://192.168.3.102:3000/tasks.json"; // "http://192.168.0.104:3000/tasks.json";
+	Button					showmap, getlist, write;
+	private MessageAdapter	messageAdapter;
+	ListView				lv;
+	List<Posts>				list;
+	String					WHICH_CLASS_CALL	= null;
+	boolean					LISTVIEW_SET		= false;
+	String					searchURL			= "http://192.168.3.102:3000/tasks.json";	// "http://192.168.0.104:3000/tasks.json";
 
 	// field to update with retrieved messages
 	// private TextView messageDisplay;
 	// ListView messagesList;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		getlist = (Button) findViewById(R.id.btn_getlist);
-		write = (Button) findViewById(R.id.btn_write);
-		showmap = (Button) findViewById(R.id.btn_showmap);
+	protected void onCreate( Bundle savedInstanceState )
+	{
 
-		write.setOnClickListener(new OnClickListener() {
+		super.onCreate( savedInstanceState );
+		setContentView( R.layout.activity_main );
+		getlist = ( Button ) findViewById( R.id.btn_getlist );
+		write = ( Button ) findViewById( R.id.btn_write );
+		showmap = ( Button ) findViewById( R.id.btn_showmap );
+
+		write.setOnClickListener( new OnClickListener()
+		{
 			@Override
-			public void onClick(View arg0) {
+			public void onClick( View arg0 )
+			{
+
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(MainActivity.this, JSONwriter.class);
-				startActivity(intent);
+				Intent intent = new Intent( MainActivity.this, JSONwriter.class );
+				startActivity( intent );
 			}
-		});
+		} );
 
-		showmap.setOnClickListener(new OnClickListener() {
+		showmap.setOnClickListener( new OnClickListener()
+		{
 
 			@Override
-			public void onClick(View v) {
+			public void onClick( View v )
+			{
+
 				WHICH_CLASS_CALL = "Maps";
-				new GetMessages().execute(searchURL);
+				new GetMessages().execute( searchURL );
 			}
-		});
+		} );
 
-		getlist.setOnClickListener(new OnClickListener() {
+		getlist.setOnClickListener( new OnClickListener()
+		{
 
 			@Override
-			public void onClick(View v) {
-				WifiManager wm = (WifiManager) getSystemService(WIFI_SERVICE);
-				if (wm.isWifiEnabled()) {
-					try {
+			public void onClick( View v )
+			{
+
+				WifiManager wm = ( WifiManager ) getSystemService( WIFI_SERVICE );
+				if( wm.isWifiEnabled() )
+				{
+					try
+					{
 						WHICH_CLASS_CALL = "MainActivity";
-						new GetMessages().execute(searchURL);
-					} catch (Exception e) {
+						new GetMessages().execute( searchURL );
+					}
+					catch ( Exception e )
+					{
 						e.printStackTrace();
 					}
-				} else
-					Toast.makeText(MainActivity.this, "No WiFi Connection",
-							Toast.LENGTH_SHORT).show();
+				}
+				else
+					Toast.makeText( MainActivity.this, "No WiFi Connection", Toast.LENGTH_SHORT ).show();
 			}
-		});
+		} );
 
-		if (LISTVIEW_SET==true) {
-			lv.setOnItemClickListener(new OnItemClickListener() {
+		if( LISTVIEW_SET == true )
+		{
+			lv.setOnItemClickListener( new OnItemClickListener()
+			{
 
 				@Override
-				public void onItemClick(AdapterView<?> arg0, View arg1,
-						int position, long arg3) {
+				public void onItemClick( AdapterView<?> arg0, View arg1, int position, long arg3 )
+				{
+
 					// TODO Auto-generated method stub
-					JSONSchema obj = list.get(position);
-					Log.d("listview listener", obj.getName());
+					Posts obj = list.get( position );
+					Log.d( "listview listener", obj.getName() );
 				}
-			});
+			} );
 		}
 
 	}
@@ -117,45 +136,52 @@ public class MainActivity extends Activity {
 	 * return types as strings - parameter is twitter URL search string - result
 	 * is retrieved messages
 	 */
-	private class GetMessages extends AsyncTask<String, Void, String> {
-		ProgressDialog pd;
+	private class GetMessages extends AsyncTask<String, Void, String>
+	{
+		ProgressDialog	pd;
 
 		@Override
-		protected void onPreExecute() {
-			pd = ProgressDialog.show(MainActivity.this, "Loading",
-					"Fetching Data");
+		protected void onPreExecute()
+		{
+
+			pd = ProgressDialog.show( MainActivity.this, "Loading", "Fetching Data" );
 		}
 
 		@Override
-		protected String doInBackground(String... messageURL) {
+		protected String doInBackground( String... messageURL )
+		{
+
 			// start building result which will be json string
 			StringBuilder messageFeedBuilder = new StringBuilder();
 			// should only be one URL, receives array
-			for (String searchURL : messageURL) {
+			for( String searchURL : messageURL )
+			{
 				HttpClient messageClient = new DefaultHttpClient();
-				try {
+				try
+				{
 					// pass search URL string to fetch
-					HttpGet messageGet = new HttpGet(searchURL);
+					HttpGet messageGet = new HttpGet( searchURL );
 					// execute request
-					HttpResponse messageResponse = messageClient
-							.execute(messageGet);
+					HttpResponse messageResponse = messageClient.execute( messageGet );
 					// check status, only proceed if ok
 					StatusLine searchStatus = messageResponse.getStatusLine();
-					if (searchStatus.getStatusCode() == 200) {
+					if( searchStatus.getStatusCode() == 200 )
+					{
 						// get the response
 						HttpEntity messageEntity = messageResponse.getEntity();
 						InputStream messageContent = messageEntity.getContent();
 						// process the results
-						InputStreamReader messageInput = new InputStreamReader(
-								messageContent);
-						BufferedReader messageReader = new BufferedReader(
-								messageInput);
+						InputStreamReader messageInput = new InputStreamReader( messageContent );
+						BufferedReader messageReader = new BufferedReader( messageInput );
 						String lineIn;
-						while ((lineIn = messageReader.readLine()) != null) {
-							messageFeedBuilder.append(lineIn);
+						while ( ( lineIn = messageReader.readLine() ) != null )
+						{
+							messageFeedBuilder.append( lineIn );
 						}
 					}
-				} catch (Exception e) {
+				}
+				catch ( Exception e )
+				{
 					e.printStackTrace();
 				}
 			}
@@ -165,38 +191,44 @@ public class MainActivity extends Activity {
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
-			try {
+		protected void onPostExecute( String result )
+		{
+
+			try
+			{
 				// why do i have to write TypeReference<arrayList> instead of
 				// JSONSchema
 				ObjectMapper obj = new ObjectMapper();
-				list = obj.readValue(result,
-						new TypeReference<ArrayList<JSONSchema>>() {
-						});
+				list = obj.readValue( result, new TypeReference<ArrayList<Posts>>()
+				{
+				} );
 
 				// Log.d("list testing", list.get(5).getName().toString());
 				// messageAdapter.addAll(list);
-				if (WHICH_CLASS_CALL == "MainActivity") {
-					messageAdapter = new MessageAdapter(
-							getApplicationContext(), list);
-					lv = (ListView) findViewById(R.id.json_listView);
-					lv.setAdapter(messageAdapter);
+				if( WHICH_CLASS_CALL == "MainActivity" )
+				{
+					messageAdapter = new MessageAdapter( getApplicationContext(), list );
+					lv = ( ListView ) findViewById( R.id.json_listView );
+					lv.setAdapter( messageAdapter );
 					LISTVIEW_SET = true;
 				}
-				if (WHICH_CLASS_CALL == "Maps") {
+				if( WHICH_CLASS_CALL == "Maps" )
+				{
 					Bundle b = new Bundle();
 					// b.putString("class", "JSONwriter");
 					// b.putString("nick", nick);
-					Intent intent = new Intent(MainActivity.this, Maps.class);
-					intent.putExtras(b);
-					startActivity(intent);
+					Intent intent = new Intent( MainActivity.this, Maps.class );
+					intent.putExtras( b );
+					startActivity( intent );
 				}
 
 				// JSONSchema js = obj.readValue(result, JSONSchema.class);
 				// Log.d("TESTING JSobj", "HELLO");
 				pd.dismiss();
-			} catch (Exception e) {
-				Log.d("TESTING JSexcept", e.toString());
+			}
+			catch ( Exception e )
+			{
+				Log.d( "TESTING JSexcept", e.toString() );
 				pd.dismiss();
 			}
 		}

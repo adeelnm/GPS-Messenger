@@ -7,22 +7,19 @@ import java.util.List;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public final class MessageAdapter extends ArrayAdapter<JSONSchema> {
+public final class MessageAdapter extends ArrayAdapter<Posts> {
 
 	private Context context;
-	private List<JSONSchema> messageSearchResult;
+	private List<Posts> messageSearchResult;
 	
 
-	public MessageAdapter(final Context c, List<JSONSchema> list) {
+	public MessageAdapter(final Context c, List<Posts> list) {
 		super(c, R.layout.message_list);
-		messageSearchResult = new ArrayList<JSONSchema>();
+		messageSearchResult = new ArrayList<Posts>();
 		messageSearchResult = list;
 		context = c;
 	}
@@ -39,7 +36,7 @@ public final class MessageAdapter extends ArrayAdapter<JSONSchema> {
 	}
 
 	@Override
-	public void addAll(Collection<? extends JSONSchema> collection) {
+	public void addAll(Collection<? extends Posts> collection) {
 		messageSearchResult.addAll(collection);
 		notifyDataSetChanged();
 	}
@@ -52,7 +49,7 @@ public final class MessageAdapter extends ArrayAdapter<JSONSchema> {
 			LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			row = vi.inflate(R.layout.message_list, null);
 		}
-		JSONSchema item = messageSearchResult.get(position);
+		Posts item = messageSearchResult.get(position);
 		if (item != null) {
 			TextView t1 = (TextView) row.findViewById(R.id.view_nick);
 			TextView t2 = (TextView) row.findViewById(R.id.view_message);

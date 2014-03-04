@@ -18,7 +18,7 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
     "name",
     "updated_at"
 })
-public class JSONSchema {
+public class Posts {
 
     @JsonProperty("created_at")
     private String created_at;
